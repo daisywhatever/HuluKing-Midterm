@@ -13,14 +13,11 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public float rotateSpeed;
 	public Image backgroundImage;
-	public Material redMaterial;
-	public Image skillButton;
 
 	private bool restart;
-	private bool skillFlag;
 	private VirtualJoystick joystick;
 	private Renderer rend;
-	private float jumpPower = 600;
+	private float jumpPower = 450;
 	private Rigidbody rb;
 	private bool jumpFlag;
 	private bool upFlag;
@@ -32,17 +29,12 @@ public class PlayerController : MonoBehaviour {
 	{
 		rb = GetComponent<Rigidbody> ();
 		restart = false;
-		skillFlag = false;
 		jumpFlag = false;
 		downFlag = false;
 		upFlag = false;
 		joystick = backgroundImage.GetComponent<VirtualJoystick> ();
 		if (joystick == null) {
 			Debug.Log ("joystick is null");
-			return;
-		}
-		if (skillButton == null) {
-			Debug.Log ("skillButton is null");
 			return;
 		}
 		rend = GetComponent<Renderer> ();
@@ -86,7 +78,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyUp (KeyCode.Space) && skillFlag) {
+		if (Input.GetKeyUp (KeyCode.Space)) {
 			RedSkill ();
 		}
 
@@ -117,11 +109,6 @@ public class PlayerController : MonoBehaviour {
 			// collide effect
 			/* ++++++ */
 			restart = true;
-		} else if (other.gameObject.CompareTag ("Hulu")) {
-			rend.sharedMaterial = redMaterial;
-			skillButton.color = Color.red;
-			activateSkill ();
-			Destroy (other.gameObject);
 		} else if (other.gameObject.CompareTag ("Bullet")) {
 			/* ++++++ */
 			restart = true;
@@ -151,21 +138,6 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.CompareTag ("Downground")) {
 			downFlag = true;
 		}
-	}
-
-	public bool isSkilled()
-	{
-		return skillFlag;
-	}
-
-	public void deactivateSkill()
-	{
-		skillFlag = false;
-	}
-
-	public void activateSkill()
-	{
-		skillFlag = true;
 	}
 
 	void RedSkill()

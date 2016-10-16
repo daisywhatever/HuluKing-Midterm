@@ -38,7 +38,7 @@ public class SkillController : MonoBehaviour,IPointerDownHandler {
 	{
 		Vector2 pos;
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle (skillImg.rectTransform, ped.position, ped.pressEventCamera, out pos)) {
-			if (playController != null && playController.isSkilled ()) {
+			if (playController != null) {
 				RedSkill ();
 			}
 		}
