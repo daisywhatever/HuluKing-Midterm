@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 public class Mission4_Player_Controller : MonoBehaviour {
 
 	public GameObject cam;
+	public GameObject endingImage;
 
 	public float moveSpeed;
 	public float rotateSpeed;
 	public Image backgroundImage;
 	public Material greenMaterial;
 	public Image skillButton;
+
 
 	private bool restart;
 	private M4_VirtualJoystick joystick;
@@ -89,6 +91,11 @@ public class Mission4_Player_Controller : MonoBehaviour {
 			AudioSource audio = coin_audio.GetComponent<AudioSource> ();
 			audio.Play ();
 			Destroy (other.gameObject);
+		} else if (other.gameObject.CompareTag ("greenDoor")) {
+			endingImage.SetActive (true);
+			Time.timeScale = 0;
+		} else if (other.gameObject.CompareTag ("otherDoor")) {
+			restart = true;
 		}
 	}
 

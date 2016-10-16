@@ -11,7 +11,7 @@ public class purpleSkill : MonoBehaviour, IPointerDownHandler {
 	private bool flag;
 	// Use this for initialization
 	private void Start() {
-		flag = false;
+		flag = true;
 		skillImg = GetComponent<Image> ();
 	}
 
