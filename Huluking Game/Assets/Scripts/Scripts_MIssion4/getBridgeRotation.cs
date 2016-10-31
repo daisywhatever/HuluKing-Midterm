@@ -7,7 +7,10 @@ public class getBridgeRotation : MonoBehaviour {
 	void OnCollisionEnter (Collision other)
 	{
 		if (other.gameObject.tag == "bridge") {
-			bullet_shot_rotation.transform.rotation = other.gameObject.transform.rotation ;
+			Debug.Log ("Test");
+			bullet_shot_rotation.transform.rotation = other.gameObject.transform.rotation;
+			//Debug.Log (bullet_shot_rotation.transform.rotation);
+			//gameObject.transform.rotation.x = other.gameObject.transform.rotation.x;
 		}
 	}
 }

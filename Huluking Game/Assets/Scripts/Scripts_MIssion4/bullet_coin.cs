@@ -6,7 +6,6 @@ public class bullet_coin : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "bullet") {
 			AudioSource audio = gameObject.GetComponent<AudioSource> ();
-			Debug.Log ("herehrerer");
 			gameObject.GetComponent<Renderer> ().enabled = false;
 			gameObject.GetComponent<Collider> ().enabled = false;
 			audio.Play ();
