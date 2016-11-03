@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public Vector3 pos;
 	public float interval;
 	public int num; 
+
 	// Use this for initialization
 	void Start ()
 	{

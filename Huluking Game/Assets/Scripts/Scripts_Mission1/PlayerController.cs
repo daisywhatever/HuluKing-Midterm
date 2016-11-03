@@ -2,10 +2,15 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 [RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour {
 
+	public Vector3[] resetPoints;
+	public Quaternion[] resetAngles;
 	public GameObject cam;
 	public Text countText;
 	public GameObject endingImage;
@@ -14,19 +19,22 @@ public class PlayerController : MonoBehaviour {
 	public float rotateSpeed;
 	public Image backgroundImage;
 
+	private int resetLocationIndex = 0;
 	private bool restart;
 	private VirtualJoystick joystick;
 	private Renderer rend;
-	private float jumpPower = 450;
+	private float jumpPower = 550;
 	private Rigidbody rb;
 	private bool jumpFlag;
 	private bool upFlag;
 	private bool downFlag;
 	private bool flag = false;
 	private int count;
+	private int stageIndex;
 
 	void Start()
 	{
+		stageIndex = 0;
 		rb = GetComponent<Rigidbody> ();
 		restart = false;
 		jumpFlag = false;
@@ -41,11 +49,16 @@ public class PlayerController : MonoBehaviour {
 		rend.enabled = true;
 		count = 0;
 		countText.text = "Score: " + count.ToString ();
+
+		Load ();
+		Debug.Log (stageIndex);
+		transform.position = resetPoints [stageIndex];
+		transform.Rotate(0, resetAngles[stageIndex].y, 0);
+
 	}
 
 	void Update()
 	{
-
 		transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
 		var x = joystick.Horizontal() * Time.deltaTime * rotateSpeed;
 		transform.Rotate(0, x, 0);
@@ -114,6 +127,8 @@ public class PlayerController : MonoBehaviour {
 			restart = true;
 		} else if (other.gameObject.CompareTag ("redDoor")) {
 			endingImage.SetActive (true);
+			stageIndex = 0;
+			Save ();
 			Time.timeScale = 0;
 		} else if (other.gameObject.CompareTag ("otherDoor")) {
 			restart = true;
@@ -129,14 +144,25 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				jumpFlag = true;
 			}
-		} else {
-			// audio.Play ();
-		}
-		if (collision.gameObject.CompareTag ("Upground")) { 
+		} else if (collision.gameObject.CompareTag ("Upground")) { 
 			upFlag = true;
-		}
-		if (collision.gameObject.CompareTag ("Downground")) {
+		} else if (collision.gameObject.CompareTag ("Downground")) {
 			downFlag = true;
+		} else if (collision.gameObject.CompareTag ("stage1")) {
+			stageIndex = 0;
+			Save ();
+		} else if (collision.gameObject.CompareTag ("stage2")) {
+			stageIndex = 1;
+			Save ();
+		} else if (collision.gameObject.CompareTag ("stage3")) {
+			stageIndex = 2;
+			Save ();
+		} else if (collision.gameObject.CompareTag ("stage4")) {
+			stageIndex = 3;
+			Save ();
+		} else if (collision.gameObject.CompareTag ("stage5")) {
+			stageIndex = 4;
+			Save ();
 		}
 	}
 
@@ -152,5 +178,23 @@ public class PlayerController : MonoBehaviour {
 			flag = true;
 		}
 		cam.transform.position = position;
+	}
+
+	void Save()
+	{
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Create (Application.persistentDataPath + "/savedGames.gd");
+		bf.Serialize (file, stageIndex);
+		file.Close ();
+	}
+
+	void Load()
+	{
+		if(File.Exists(Application.persistentDataPath + "/savedGames.gd")) {
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/savedGames.gd", FileMode.Open);
+			stageIndex = (int)bf.Deserialize(file);
+			file.Close();
+		}
 	}
 }
