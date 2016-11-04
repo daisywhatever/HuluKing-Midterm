@@ -16,7 +16,7 @@ public class ShootingControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float distance = Vector3.Distance (this.transform.position, player.transform.position);
-		if (distance < 15) {
+		if (distance < 15 && this.transform.position.z >= player.transform.position.z) {
 			nextShot += Time.deltaTime;
 			//StartCoroutine (Shooting());
 			if (nextShot > interval) {

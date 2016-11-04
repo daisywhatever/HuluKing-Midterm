@@ -4,7 +4,7 @@ using System.Collections;
 public class SplitObstacle : MonoBehaviour {
 	public GameObject player;
     private float topY = 5;
-	private float bottomY = -2.0f;
+	private float bottomY = -1.2f;
     private float top = -1;
    
     // Use this for initialization

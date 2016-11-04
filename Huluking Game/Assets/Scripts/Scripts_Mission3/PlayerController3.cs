@@ -32,7 +32,7 @@ public class PlayerController3 : MonoBehaviour {
 		//score = 0;
 		moveSpeed = 5.0f;
 		angularSpeed=40.0f;
-		skill = false;
+		skill = true;
 		restart = false;
 		//generateObstacles ();
 	}
@@ -72,7 +72,7 @@ public class PlayerController3 : MonoBehaviour {
 		
 		transform.Translate (Vector3.forward * Time.deltaTime * moveSpeed);
 		joystick = backgroundImage.GetComponent<VirtualJoystick> ();
-		float x = joystick.Horizontal() * Time.deltaTime * angularSpeed;
+		float x = joystick.Horizontal() * Time.deltaTime * angularSpeed * 3.8f;
 		transform.Rotate(0, x, 0);
 
 		if (Input.GetKey(KeyCode.A))

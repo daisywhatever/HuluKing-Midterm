@@ -6,11 +6,11 @@ public class PlayerCollision : MonoBehaviour {
 	private PlayerController3 playerController;
 	public GameObject endingImage;
 	private int score;
-	private int count;
+	//private int count;
 	void Start() {
 		playerController = this.GetComponent<PlayerController3> ();
 		score = 0;
-		count = 0;
+		//count = 0;
 	}
 	void OnCollisionEnter(Collision obj)
 	{
