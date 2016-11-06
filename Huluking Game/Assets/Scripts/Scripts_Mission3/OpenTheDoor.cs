@@ -22,7 +22,7 @@ public class OpenTheDoor : MonoBehaviour {
     void OnTriggerEnter()
     {
         move = true;
-		this.GetComponent<Renderer> ().enabled = false;
+		//this.GetComponent<Renderer> ().enabled = false;
 		//Destroy(this.gameObject,5.0f);
         Destroy(this.leftGate,2);
         Destroy(this.rightGate,2);
