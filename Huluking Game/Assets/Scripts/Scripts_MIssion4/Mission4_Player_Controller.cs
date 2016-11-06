@@ -7,6 +7,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 
 	public GameObject cam;
 	public GameObject endingImage;
+    public Collider currentCheckPoint;
 
 	public float moveSpeed;
 	public float rotateSpeed;
@@ -48,6 +49,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 		}
 		rend = GetComponent<Renderer> ();
 		rend.enabled = true;
+        transform.position = checkPoint.reachedPoint;
 	}
 
 	void Update()
@@ -81,6 +83,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 
 		if (restart) {
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+           // transform.position = checkPoint.reachedPoint;
 		}
 
 	}
