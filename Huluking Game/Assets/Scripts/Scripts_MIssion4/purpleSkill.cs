@@ -11,13 +11,13 @@ public class purpleSkill : MonoBehaviour, IPointerDownHandler {
 	private bool flag;
 	// Use this for initialization
 	private void Start() {
-		flag = true;
+		flag = false;
 		skillImg = GetComponent<Image> ();
 	}
 
 	void PurpleSkill()
 	{
-		Debug.Log ("bullet x: "+bullet_rotation_x.transform.rotation);
+		//Debug.Log ("bullet x: "+bullet_rotation_x.transform.rotation);
 		float x = bullet_rotation_x.transform.rotation.x;
 		float y = player.transform.rotation.y;
 		float z = player.transform.rotation.z;

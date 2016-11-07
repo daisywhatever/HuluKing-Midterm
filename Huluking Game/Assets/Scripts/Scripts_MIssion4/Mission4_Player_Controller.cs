@@ -7,6 +7,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 
 	public GameObject cam;
 	public GameObject endingImage;
+    public Collider currentCheckPoint;
 
 	public float moveSpeed;
 	public float rotateSpeed;
@@ -26,8 +27,16 @@ public class Mission4_Player_Controller : MonoBehaviour {
 	public GameObject bridge_rotate_3;
 
 	public GameObject coin_audio;
+
+
+	public GameObject bridge_rotation;
+
+	private Vector3 move_direction;
+	private float pos_y = 0.0f;
+	private bool up = false;
 	void Start()
 	{
+		move_direction = new Vector3 (0.0f, 0.0f, 1.0f);
 		restart = false;
 		joystick = backgroundImage.GetComponent<M4_VirtualJoystick> ();
 		if (joystick == null) {
@@ -40,10 +49,18 @@ public class Mission4_Player_Controller : MonoBehaviour {
 		}
 		rend = GetComponent<Renderer> ();
 		rend.enabled = true;
+        transform.position = checkPoint.reachedPoint;
 	}
 
 	void Update()
 	{
+		if (gameObject.transform.position.y > pos_y) {
+			up = true;
+		} else {
+			up = false;
+		}
+
+		pos_y = gameObject.transform.position.y;
 		if (bridge_rotate_flag) {
 			rotate_bridge ();
 			bridge_rotate_count++;
@@ -52,11 +69,11 @@ public class Mission4_Player_Controller : MonoBehaviour {
 				bridge_rotate_count = 0;
 			}
 		} else {
-			transform.Translate (Vector3.forward * Time.deltaTime * moveSpeed);
-			var x = joystick.Horizontal () * Time.deltaTime * rotateSpeed;
-			transform.Rotate (0, x, 0);
-
-			transform.Translate (Vector3.forward * Time.deltaTime * moveSpeed);
+			Debug.Log (up + ": "+move_direction);
+			transform.Translate (move_direction * Time.fixedDeltaTime * moveSpeed);
+			var y = joystick.Horizontal () * Time.fixedDeltaTime * rotateSpeed;
+			transform.Rotate (0, y, 0);
+			transform.Translate (move_direction * Time.fixedDeltaTime * moveSpeed);
 		}
 
 
@@ -66,6 +83,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 
 		if (restart) {
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+           // transform.position = checkPoint.reachedPoint;
 		}
 
 	}
@@ -74,20 +92,16 @@ public class Mission4_Player_Controller : MonoBehaviour {
 	{
 		if (other.gameObject.CompareTag ("Coin")) {
 			Destroy (other.gameObject);
-		}
-		else if (other.gameObject.CompareTag ("Hulu")) {
+		}else if (other.gameObject.CompareTag ("Hulu")) {
 			rend.sharedMaterial = greenMaterial;
 			skillButton.color = Color.green;
 			Destroy (other.gameObject);
-		}
-		else if (other.gameObject.CompareTag ("Obstacle")) {
+		} else if (other.gameObject.CompareTag ("Obstacle")) {
 			restart = true;
-		}
-		else if (other.gameObject.CompareTag ("Rotate_point")) {
+		} else if (other.gameObject.CompareTag ("Rotate_point")) {
 			Destroy (other.gameObject);
 			bridge_rotate_flag = true;
-		}
-		else if (other.gameObject.CompareTag ("Coin4")) {
+		} else if (other.gameObject.CompareTag ("Coin4")) {
 			AudioSource audio = coin_audio.GetComponent<AudioSource> ();
 			audio.Play ();
 			Destroy (other.gameObject);
@@ -106,4 +120,20 @@ public class Mission4_Player_Controller : MonoBehaviour {
 		bridge_rotate_2.transform.Rotate (0, x, 0);
 		bridge_rotate_3.transform.Rotate (0, x, 0);
 	}
+
+	void OnCollisionEnter (Collision other)
+	{
+		if (other.gameObject.tag == "bridge") {
+			bridge_rotation.transform.rotation = other.gameObject.transform.rotation;
+			if (bridge_rotation.transform.rotation.x < 0 && up) {
+				move_direction = new Vector3 (0.0f, 0.4129f, 1.0f);
+			} else {
+				move_direction = new Vector3 (0.0f, 0.0f, 1.0f);
+			}
+			//bullet_shot_rotation.transform.rotation = other.gameObject.transform.rotation;
+			//Debug.Log (bullet_shot_rotation.transform.rotation);
+			//gameObject.transform.rotation.x = other.gameObject.transform.rotation.x;
+		}
+	}
+
 }
