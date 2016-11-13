@@ -9,6 +9,8 @@ using System.IO;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour {
 
+	public static int stageIndex = 0;
+
 	public Vector3[] resetPoints;
 	public Quaternion[] resetAngles;
 	public GameObject cam;
@@ -30,11 +32,9 @@ public class PlayerController : MonoBehaviour {
 	private bool downFlag;
 	private bool flag = false;
 	private int count;
-	private int stageIndex;
 
 	void Start()
 	{
-		stageIndex = 0;
 		rb = GetComponent<Rigidbody> ();
 		restart = false;
 		jumpFlag = false;
@@ -50,11 +50,8 @@ public class PlayerController : MonoBehaviour {
 		count = 0;
 		countText.text = "Score: " + count.ToString ();
 
-		Load ();
-		Debug.Log (stageIndex);
 		transform.position = resetPoints [stageIndex];
 		transform.Rotate(0, resetAngles[stageIndex].y, 0);
-
 	}
 
 	void Update()
@@ -76,14 +73,12 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (upFlag) {
-			
 			if (transform.position.y >= 0) {
 				upFlag = false;
 			}
 		}
 
 		if (downFlag) {
-			 
 			//cam.transform.position =  Vector3 (1, 0.5, 1);
 			if (transform.position.y <= -8) {
 				//cam.transform.position = position;
@@ -116,19 +111,13 @@ public class PlayerController : MonoBehaviour {
 			Destroy (other.gameObject);
 			count = count + 1;
 			countText.text = "Score: " + count.ToString ();
-
-
 		} else if (other.gameObject.CompareTag ("Cap_Obstacle")) {
-			// collide effect
-			/* ++++++ */
 			restart = true;
 		} else if (other.gameObject.CompareTag ("Bullet")) {
-			/* ++++++ */
 			restart = true;
 		} else if (other.gameObject.CompareTag ("redDoor")) {
 			endingImage.SetActive (true);
 			stageIndex = 0;
-			Save ();
 			Time.timeScale = 0;
 		} else if (other.gameObject.CompareTag ("otherDoor")) {
 			restart = true;
@@ -139,7 +128,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collision.gameObject.CompareTag ("Jump_Plane")) {
 			if (transform.localScale.x == 4) {
-				
 				Destroy (collision.gameObject);
 			} else {
 				jumpFlag = true;
@@ -148,21 +136,6 @@ public class PlayerController : MonoBehaviour {
 			upFlag = true;
 		} else if (collision.gameObject.CompareTag ("Downground")) {
 			downFlag = true;
-		} else if (collision.gameObject.CompareTag ("stage1")) {
-			stageIndex = 0;
-			Save ();
-		} else if (collision.gameObject.CompareTag ("stage2")) {
-			stageIndex = 1;
-			Save ();
-		} else if (collision.gameObject.CompareTag ("stage3")) {
-			stageIndex = 2;
-			Save ();
-		} else if (collision.gameObject.CompareTag ("stage4")) {
-			stageIndex = 3;
-			Save ();
-		} else if (collision.gameObject.CompareTag ("stage5")) {
-			stageIndex = 4;
-			Save ();
 		}
 	}
 
@@ -180,6 +153,7 @@ public class PlayerController : MonoBehaviour {
 		cam.transform.position = position;
 	}
 
+	/*
 	void Save()
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
@@ -197,4 +171,5 @@ public class PlayerController : MonoBehaviour {
 			file.Close();
 		}
 	}
+	*/
 }
