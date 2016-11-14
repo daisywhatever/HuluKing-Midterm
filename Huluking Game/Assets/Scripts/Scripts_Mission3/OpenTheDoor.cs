@@ -15,8 +15,10 @@ public class OpenTheDoor : MonoBehaviour {
 	void Update () {
 		transform.Rotate (new Vector3 (0, 90*Time.deltaTime, 0));
         if (move) {
-            leftGate.transform.Translate(Vector3.left * Time.deltaTime * 10);
-            rightGate.transform.Translate(Vector3.right * Time.deltaTime * 10);
+            if (leftGate != null && rightGate != null) {
+                leftGate.transform.Translate(Vector3.left * Time.deltaTime * 10);
+                rightGate.transform.Translate(Vector3.right * Time.deltaTime * 10);
+            }
         }
     }
     void OnTriggerEnter()
