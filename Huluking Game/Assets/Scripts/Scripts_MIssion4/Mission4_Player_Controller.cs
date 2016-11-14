@@ -50,6 +50,11 @@ public class Mission4_Player_Controller : MonoBehaviour {
 		rend = GetComponent<Renderer> ();
 		rend.enabled = true;
         transform.position = checkPoint.reachedPoint;
+        if (transform.position.z != -19f)
+        {
+            skillButton.color = Color.green;
+            rend.sharedMaterial = greenMaterial;
+        }
 	}
 
 	void Update()
