@@ -11,14 +11,10 @@ public class PopUpObs : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
        
-        if (transform.position.y <= 16.0f)
+        if (transform.position.y <= 21.0f)
         {
-            transform.Translate(Vector3.up*Time.deltaTime*10);
+            transform.Translate(Vector3.up*Time.deltaTime*2);
         }
 	}
-    void OnCollisionEnter(Collision obj)
-    {
-        Destroy(obj.gameObject);
-
-    }
+    
 }

@@ -9,6 +9,7 @@ public class DoorController : MonoBehaviour {
 		if(obj.gameObject.CompareTag("Player")) {
 			Rigidbody r = obj.gameObject.GetComponent<Rigidbody>();
 			r.AddForce(Vector3.left*4, ForceMode.Impulse);
+            Destroy(this.gameObject, 5);
 		}
 	}
 

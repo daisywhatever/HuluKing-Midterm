@@ -18,7 +18,7 @@ public class BulletMove : MonoBehaviour {
 	void Update () {
 		Rigidbody rb = this.GetComponent<Rigidbody> ();
 		rb.velocity = (player.transform.position - transform.position) * 2.5f;
-		Destroy (gameObject, 2.0f);
+		Destroy (gameObject, 1.0f);
 	}
 	/*
 	void OnCollisionEnter(Collision obj) {
