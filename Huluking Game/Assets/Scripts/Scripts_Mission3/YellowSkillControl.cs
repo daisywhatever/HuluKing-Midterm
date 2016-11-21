@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
-public class YellowSkillControl : MonoBehaviour, IPointerDownHandler {
+public class YellowSkillControl : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
+{
 	public GameObject player;
 	private PlayerController3 playerController;
 	private Image skillImg;
@@ -16,37 +18,34 @@ public class YellowSkillControl : MonoBehaviour, IPointerDownHandler {
 		playerController = player.GetComponent<PlayerController3> ();
 	}
 
-	// Update is called once per frame
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+   
     
-	void YellowSkill () {
-		if (playerController.getSkill ()) {
-			//Debug.Log ("success");
-			if (flag) {
-				playerController.setSpeed (30.0f);
-				flag = false;
-			} else {
-				playerController.setSpeed (5.0f);
-				flag = true;
-			}
-		} else
-			Debug.Log ("fail");
-	}
-    
-	public virtual void OnPointerDown(PointerEventData ped)
+	public  void OnPointerDown(PointerEventData ped)
 	{
-		//Debug.Log ("success");
+		
 		Vector2 pos;
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle (skillImg.rectTransform, ped.position, ped.pressEventCamera, out pos)) {
-			//Debug.Log ("success");
-			YellowSkill();
+           
+            if (playerController.getSkill()) { 
+                playerController.setSpeed(30.0f);
+            }
 		}
 
 	}
-    /*
-    public virtual void OnPointerUp(PointerEventData ped)
-	{
-		playerController.setSpeed (5.0f);
+   
 
-	}
-	*/
+    public void OnPointerUp(PointerEventData ped)
+    {
+        Vector2 pos;
+       
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(skillImg.rectTransform, ped.position, ped.pressEventCamera, out pos))
+        {
+            playerController.setSpeed(5.0f);
+        }
+    }
 }
