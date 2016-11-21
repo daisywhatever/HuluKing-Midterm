@@ -37,7 +37,7 @@ public class PlayerController3 : MonoBehaviour {
 		//score = 0;
 		moveSpeed = 5.0f;
 		angularSpeed=40.0f;
-		skill = false;
+		skill = true;
 		flag = false;
 		restart = false;
 		currentCheckPoint = GameObject.Find("CheckPoint1").GetComponent<Collider>();
