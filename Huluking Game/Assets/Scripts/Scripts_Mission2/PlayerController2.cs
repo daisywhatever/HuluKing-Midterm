@@ -13,6 +13,7 @@ public class PlayerController2 : MonoBehaviour {
 	public float moveSpeed;
 	public float rotateSpeed;
 	public Image backgroundImage;
+	public ParticleSystem ps;
 
 	private bool restart;
 	private VirtualJoystick joystick;
@@ -20,8 +21,6 @@ public class PlayerController2 : MonoBehaviour {
 	private float jumpPower = 450;
 	private Rigidbody rb;
 	private bool jumpFlag;
-	private bool upFlag;
-	private bool downFlag;
 	private bool flag = false;
 	private int count;
 
@@ -30,13 +29,13 @@ public class PlayerController2 : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		restart = false;
 		jumpFlag = false;
-		downFlag = false;
-		upFlag = false;
 		joystick = backgroundImage.GetComponent<VirtualJoystick> ();
 		rend = GetComponent<Renderer> ();
 		rend.enabled = true;
 		count = 0;
 		countText.text = "Score: " + count.ToString ();
+		flag = false;
+		ps.Stop ();
 	}
 
 	void Update()
@@ -45,9 +44,6 @@ public class PlayerController2 : MonoBehaviour {
 		transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
 		var x = joystick.Horizontal() * Time.deltaTime * rotateSpeed;
 		transform.Rotate(0, x, 0);
-		// var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
-		// var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-		// transform.Translate(0, 0, z);
 
 		transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
 
@@ -58,31 +54,19 @@ public class PlayerController2 : MonoBehaviour {
 			}
 		}
 
-		if (upFlag) {
 
-			if (transform.position.y >= 0) {
-				upFlag = false;
-			}
-		}
-
-		if (downFlag) {
-
-			//cam.transform.position =  Vector3 (1, 0.5, 1);
-			if (transform.position.y <= -8) {
-				//cam.transform.position = position;
-				downFlag = false;
-			}
-		}
 
 		if (Input.GetKeyUp (KeyCode.Space)) {
 			RedSkill ();
 		}
 
+		
 		if (transform.position.y < -10) {
 			restart = true;
 		}
 
 		if (restart) {
+			Debug.Log ("HERE");
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 		}
 
@@ -98,17 +82,17 @@ public class PlayerController2 : MonoBehaviour {
 
 		} else if (other.gameObject.CompareTag ("Cap_Obstacle")) {
 			// collide effect
-			/* ++++++ */
 			restart = true;
 		} else if (other.gameObject.CompareTag ("Bullet")) {
-			/* ++++++ */
+			//Debug.Log ("BUllet");
 			restart = true;
 		} else if (other.gameObject.CompareTag ("redDoor")) {
 			endingImage.SetActive (true);
 			Time.timeScale = 0;
 		} else if (other.gameObject.CompareTag ("otherDoor")) {
 			restart = true;
-		}
+		} 
+
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -120,29 +104,20 @@ public class PlayerController2 : MonoBehaviour {
 			} else {
 				jumpFlag = true;
 			}
-		} else {
-			// audio.Play ();
-		}
-		if (collision.gameObject.CompareTag ("Upground")) { 
-			upFlag = true;
-		}
-		if (collision.gameObject.CompareTag ("Downground")) {
-			downFlag = true;
+		} else if (collision.gameObject.CompareTag ("mountain")){
+			Debug.Log ("HELLO");
+			restart = true;
 		}
 	}
 
 	void RedSkill()
 	{
-		
-
-		Vector3 position = cam.transform.position;
 		if (flag) {
-			transform.localScale = new Vector3 (1, 1, 1);
+			ps.Stop ();
 			flag = false;
 		} else {
-			transform.localScale = new Vector3 (4, 4, 4);
+			ps.Play ();
 			flag = true;
 		}
-		cam.transform.position = position;
 	}
 }
