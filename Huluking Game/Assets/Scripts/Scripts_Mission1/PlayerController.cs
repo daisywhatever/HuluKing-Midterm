@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 
 	public Vector3[] resetPoints;
 	public Quaternion[] resetAngles;
-	public GameObject cam;
+	public Camera cam;
 	public Text countText;
 	public GameObject endingImage;
 
@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour {
 	private float jumpPower = 550;
 	private Rigidbody rb;
 	private bool jumpFlag;
-	private bool upFlag;
-	private bool downFlag;
 	private bool flag = false;
 	private int count;
 
@@ -38,8 +36,6 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		restart = false;
 		jumpFlag = false;
-		downFlag = false;
-		upFlag = false;
 		joystick = backgroundImage.GetComponent<VirtualJoystick> ();
 		if (joystick == null) {
 			Debug.Log ("joystick is null");
@@ -69,20 +65,6 @@ public class PlayerController : MonoBehaviour {
 			rb.AddForce (Vector3.up * jumpPower);
 			if (transform.position.y >= 1) {
 				jumpFlag = false;
-			}
-		}
-
-		if (upFlag) {
-			if (transform.position.y >= 0) {
-				upFlag = false;
-			}
-		}
-
-		if (downFlag) {
-			//cam.transform.position =  Vector3 (1, 0.5, 1);
-			if (transform.position.y <= -8) {
-				//cam.transform.position = position;
-				downFlag = false;
 			}
 		}
 
@@ -132,16 +114,13 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				jumpFlag = true;
 			}
-		} else if (collision.gameObject.CompareTag ("Upground")) { 
-			upFlag = true;
-		} else if (collision.gameObject.CompareTag ("Downground")) {
-			downFlag = true;
+		} else if (collision.gameObject.CompareTag ("Stone")) {
+			restart = true;
 		}
 	}
 
 	void RedSkill()
 	{
-		//Camera cam = GetComponentInChildren<Camera> ();
 		Vector3 position = cam.transform.position;
 		if (flag) {
 			transform.localScale = new Vector3 (1, 1, 1);
