@@ -15,7 +15,7 @@ public class LiftController : MonoBehaviour {
 		}
 		// up
 		if (!direction) {
-			if (transform.position.y >= 16) {
+			if (transform.position.y >= 18) {
 				direction = true;
 			} else {
 				transform.Translate (Vector3.up * Time.deltaTime * speed);

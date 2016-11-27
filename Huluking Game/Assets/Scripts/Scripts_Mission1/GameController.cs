@@ -12,10 +12,10 @@ public class GameController : MonoBehaviour {
 	void Start ()
 	{
 		for (int i = 0; i < num; i++) {
-			Instantiate (enemy, new Vector3 (pos.x + i * interval, pos.y, pos.z), Quaternion.identity);
+			Instantiate (enemy, new Vector3 (pos.x + i * interval, pos.y - 2, pos.z), Quaternion.Euler(0, -90, 0));
 		}
 		for (int i = 0; i < num; i++) {
-			Instantiate (enemy, new Vector3 (pos.x + i * interval + 5, pos.y, pos.z - 2), Quaternion.Euler(0, 180, 0));
+			Instantiate (enemy, new Vector3 (pos.x + i * interval + 5, pos.y - 2, pos.z - 2), Quaternion.Euler(0, 90, 0));
 		}
 	}
 }
