@@ -61,7 +61,7 @@ public class PlayerCollision : MonoBehaviour {
 		}
         
         if (obj.gameObject.CompareTag ("yellowDoor")) {
-			//Debug.Log ("HI");
+			Debug.Log ("HI");
 			endingImage.SetActive (true);
 			Time.timeScale = 0;
 		}

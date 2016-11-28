@@ -15,15 +15,15 @@ public class FloorNavDownwards : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if ((int)transform.position.y!=21.0&& move) {
+		if (transform.position.y>21.0&& move) {
 			transform.Translate(Vector3.down *1* Time.deltaTime);
 			transform.Translate(Vector3.back * 4.9f * Time.deltaTime);
         }
-        if ((int)transform.position.y == 21.0) {
+		if (transform.position.y == 21.0) {
            
             cnt+=Time.deltaTime;
         }
-        if ((int)cnt == 3) {
+		if ((int)cnt == 2.5) {
             transform.position = position;
             cnt = 0;
             move = false;
