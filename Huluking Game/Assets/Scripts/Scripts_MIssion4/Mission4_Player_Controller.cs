@@ -36,6 +36,7 @@ public class Mission4_Player_Controller : MonoBehaviour {
 	private bool up = false;
 	void Start()
 	{
+		skillButton.color = Color.green;
 		move_direction = new Vector3 (0.0f, 0.0f, 1.0f);
 		restart = false;
 		joystick = backgroundImage.GetComponent<M4_VirtualJoystick> ();
