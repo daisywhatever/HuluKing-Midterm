@@ -7,7 +7,7 @@ public class SkillController2 : MonoBehaviour,IPointerDownHandler {
 
 	public GameObject player;
 	public PlayerController playController;
-	public Camera cam;
+	public ParticleSystem ps;
 	private Image skillImg;
 	private bool flag;
 
@@ -15,32 +15,23 @@ public class SkillController2 : MonoBehaviour,IPointerDownHandler {
 	private void Start() {
 		flag = false;
 		skillImg = GetComponent<Image> ();
-		if (player != null) {
-			playController = player.GetComponent<PlayerController> ();
-		}
+		ps.Stop ();
 	}
 
 	void RedSkill()
 	{
-		
-		Vector3 position = cam.transform.position;
 		if (flag) {
-			player.transform.localScale = new Vector3 (1, 1, 1);
+			ps.Stop ();
 			flag = false;
 		} else {
-			player.transform.localScale = new Vector3 (4, 4, 4);
+			ps.Play ();
 			flag = true;
 		}
-		cam.transform.position = position;
+
 	}
 
 	public virtual void OnPointerDown(PointerEventData ped)
 	{
-		
-		Vector2 pos;
-		if (RectTransformUtility.ScreenPointToLocalPointInRectangle (skillImg.rectTransform, ped.position, ped.pressEventCamera, out pos)) {
-			RedSkill ();
-		}
-
+		RedSkill ();
 	}
 }
